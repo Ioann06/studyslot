@@ -13,3 +13,5 @@ Route::get('/consultations', [ConsultationSlotController::class, 'index']);
 Route::get('/book/{slotId}', [BookingController::class, 'create']);
 Route::post('/book', [BookingController::class, 'store']);
 Route::get('/teacher', [TeacherDashboardController::class, 'index']);
+Route::get('/teacher/create', [TeacherDashboardController::class, 'create']);
+Route::post('/teacher/store', [TeacherDashboardController::class, 'store']);
