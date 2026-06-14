@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('consultation_slot_id')->constrained()->onDelete('cascade');
+            $table->string('student_name');
+            $table->string('student_email');
+            $table->text('message')->nullable();
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }
