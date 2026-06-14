@@ -6,7 +6,10 @@
 <body>
     <h1>StudySlot</h1>
     <p>Student Consultation Booking System</p>
-
-    <a href="/consultations">View consultations</a>
+     
+    <br><br>
+    <a href="/consultations">View Consultations</a>
+    <br>
+    <a href="/teacher">Teacher Dashboard</a>
 </body>
 </html>
