@@ -25,6 +25,7 @@ class TeacherDashboardController extends Controller
     public function store(Request $request)
     {
         ConsultationSlot::create([
+            'teacher_id' => auth()->id(),
             'title' => $request->title,
             'course_id' => $request->course_id,
             'date' => $request->date,
