@@ -39,7 +39,10 @@ class BookingController extends Controller
         ]);
 
         $slot = ConsultationSlot::findOrFail($request->consultation_slot_id);
-
+        if ($slot->date < now()->toDateString()) {
+            return redirect('/consultations')
+                ->with('error', 'This consultation has already passed.');
+        }
         $alreadyBooked = Booking::where('user_id', auth()->id())
             ->where('consultation_slot_id', $slot->id)
             ->exists();
