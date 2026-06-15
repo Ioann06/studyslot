@@ -23,7 +23,6 @@ class TeacherDashboardController extends Controller
     public function create()
     {
         $courses = Course::all();
-
         return view('teacher.create', compact('courses'));
     }
 
@@ -32,7 +31,7 @@ class TeacherDashboardController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'course_id' => 'required|exists:courses,id',
-            'date' => 'required|date',
+            'date' => 'required|date|after_or_equal:today',
             'start_time' => 'required',
             'end_time' => 'required|after:start_time',
             'max_students' => 'required|integer|min:1'
@@ -49,51 +48,57 @@ class TeacherDashboardController extends Controller
             'status' => 'available'
         ]);
 
-        return redirect('/teacher')
-            ->with('success', 'Consultation created successfully!');
+        return redirect('/teacher')->with('success', 'Consultation created successfully!');
     }
 
     public function bookings()
     {
-        $bookings = Booking::with('consultationSlot')
-            ->whereHas('consultationSlot', function ($query) {
-                $query->where('teacher_id', auth()->id());
-            })
-            ->get();
+        if (auth()->user()->role === 'admin') {
+            $bookings = Booking::with('consultationSlot')->get();
+        } else {
+            $bookings = Booking::with('consultationSlot')
+                ->whereHas('consultationSlot', function ($query) {
+                    $query->where('teacher_id', auth()->id());
+                })
+                ->get();
+        }
 
         return view('teacher.bookings', compact('bookings'));
     }
 
     public function approveBooking($id)
     {
-        $booking = Booking::whereHas('consultationSlot', function ($query) {
-            $query->where('teacher_id', auth()->id());
-        })->findOrFail($id);
+        if (auth()->user()->role === 'admin') {
+            $booking = Booking::findOrFail($id);
+        } else {
+            $booking = Booking::whereHas('consultationSlot', function ($query) {
+                $query->where('teacher_id', auth()->id());
+            })->findOrFail($id);
+        }
 
-        $booking->update([
-            'status' => 'approved'
-        ]);
+        $booking->update(['status' => 'approved']);
 
-        return back();
+        return back()->with('success', 'Booking approved.');
     }
 
     public function rejectBooking($id)
     {
-        $booking = Booking::whereHas('consultationSlot', function ($query) {
-            $query->where('teacher_id', auth()->id());
-        })->findOrFail($id);
+        if (auth()->user()->role === 'admin') {
+            $booking = Booking::findOrFail($id);
+        } else {
+            $booking = Booking::whereHas('consultationSlot', function ($query) {
+                $query->where('teacher_id', auth()->id());
+            })->findOrFail($id);
+        }
 
-        $booking->update([
-            'status' => 'rejected'
-        ]);
+        $booking->update(['status' => 'rejected']);
 
-        return back();
+        return back()->with('success', 'Booking rejected.');
     }
 
     public function edit($id)
     {
         $slot = ConsultationSlot::findOrFail($id);
-
         return view('teacher.edit', compact('slot'));
     }
 
@@ -103,7 +108,8 @@ class TeacherDashboardController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:255',
-            'date' => 'required|date',
+            'course_id' => 'required|exists:courses,id',
+            'date' => 'required|date|after_or_equal:today',
             'start_time' => 'required',
             'end_time' => 'required|after:start_time',
             'max_students' => 'required|integer|min:1'
@@ -111,21 +117,20 @@ class TeacherDashboardController extends Controller
 
         $slot->update([
             'title' => $request->title,
+            'course_id' => $request->course_id,
             'date' => $request->date,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
             'max_students' => $request->max_students,
         ]);
 
-        return redirect('/teacher')
-            ->with('success', 'Consultation updated successfully!');
+        return redirect('/teacher')->with('success', 'Consultation updated successfully!');
     }
 
     public function destroy($id)
     {
         ConsultationSlot::findOrFail($id)->delete();
 
-        return redirect('/teacher')
-            ->with('success', 'Consultation deleted successfully!');
+        return redirect('/teacher')->with('success', 'Consultation deleted successfully!');
     }
 }
