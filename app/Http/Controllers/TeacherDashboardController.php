@@ -32,7 +32,7 @@ class TeacherDashboardController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'course_id' => 'required|exists:courses,id',
-            'date' => 'required|date',
+            'date' => 'required|date|after_or_equal:today',
             'start_time' => 'required',
             'end_time' => 'required|after:start_time',
             'max_students' => 'required|integer|min:1'
@@ -103,14 +103,18 @@ class TeacherDashboardController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:255',
-            'date' => 'required|date',
+            'course_id' => 'required|exists:courses,id',
+            'date' => 'required|date|after_or_equal:today',
             'start_time' => 'required',
             'end_time' => 'required|after:start_time',
             'max_students' => 'required|integer|min:1'
+        ], [
+            'date.after_or_equal' => 'You cannot create consultations in the past.'
         ]);
 
         $slot->update([
             'title' => $request->title,
+            'course_id' => $request->course_id,
             'date' => $request->date,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
