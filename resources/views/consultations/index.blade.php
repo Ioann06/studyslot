@@ -69,9 +69,20 @@
             <div class="col-md-4 mb-4">
                 <div class="card border-0 shadow-lg rounded-4 h-100">
                     <div class="card-body p-4">
-                        <span class="badge bg-success rounded-pill px-3 py-2 mb-3">
-                            {{ $slot->status }}
-                        </span>
+                        
+                        @if(
+                            $slot->date < now()->toDateString() ||
+                            ($slot->date == now()->toDateString() &&
+                            $slot->end_time < now()->format('H:i:s'))
+                        )
+                            <span class="badge bg-danger rounded-pill px-3 py-2 mb-3">
+                                unavailable
+                            </span>
+                        @else
+                            <span class="badge bg-success rounded-pill px-3 py-2 mb-3">
+                                available
+                            </span>
+                        @endif
 
                         <h3 class="fw-bold mb-3">{{ $slot->title }}</h3>
 

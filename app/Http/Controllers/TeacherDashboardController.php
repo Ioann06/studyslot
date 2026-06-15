@@ -113,6 +113,8 @@ class TeacherDashboardController extends Controller
             'start_time' => 'required',
             'end_time' => 'required|after:start_time',
             'max_students' => 'required|integer|min:1'
+        ], [
+            'date.after_or_equal' => 'You cannot create consultations in the past.'
         ]);
 
         $slot->update([
