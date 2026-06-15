@@ -11,7 +11,11 @@ class TeacherDashboardController extends Controller
 {
     public function index()
     {
-        $slots = ConsultationSlot::where('teacher_id', auth()->id())->get();
+        if (auth()->user()->role === 'admin') {
+            $slots = ConsultationSlot::all();
+        } else {
+            $slots = ConsultationSlot::where('teacher_id', auth()->id())->get();
+        }
 
         return view('teacher.index', compact('slots'));
     }
@@ -45,7 +49,8 @@ class TeacherDashboardController extends Controller
             'status' => 'available'
         ]);
 
-        return redirect('/teacher');
+        return redirect('/teacher')
+            ->with('success', 'Consultation created successfully!');
     }
 
     public function bookings()
@@ -87,20 +92,14 @@ class TeacherDashboardController extends Controller
 
     public function edit($id)
     {
-        $slot = ConsultationSlot::where(
-            'teacher_id',
-            auth()->id()
-        )->findOrFail($id);
+        $slot = ConsultationSlot::findOrFail($id);
 
         return view('teacher.edit', compact('slot'));
     }
 
     public function update(Request $request, $id)
     {
-        $slot = ConsultationSlot::where(
-            'teacher_id',
-            auth()->id()
-        )->findOrFail($id);
+        $slot = ConsultationSlot::findOrFail($id);
 
         $request->validate([
             'title' => 'required|string|max:255',
@@ -118,16 +117,15 @@ class TeacherDashboardController extends Controller
             'max_students' => $request->max_students,
         ]);
 
-        return redirect('/teacher');
+        return redirect('/teacher')
+            ->with('success', 'Consultation updated successfully!');
     }
 
     public function destroy($id)
     {
-        ConsultationSlot::where(
-            'teacher_id',
-            auth()->id()
-        )->findOrFail($id)->delete();
+        ConsultationSlot::findOrFail($id)->delete();
 
-        return redirect('/teacher');
+        return redirect('/teacher')
+            ->with('success', 'Consultation deleted successfully!');
     }
 }

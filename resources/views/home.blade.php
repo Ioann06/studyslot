@@ -29,7 +29,7 @@
             <a href="/consultations" class="btn btn-outline-primary me-2">Consultations</a>
 
             @auth
-                @if(auth()->user()->role === 'teacher')
+                @if(auth()->user()->role === 'teacher' || auth()->user()->role === 'admin')
                     <a href="/teacher" class="btn btn-primary me-2">Teacher Dashboard</a>
                 @endif
 
@@ -66,8 +66,12 @@
                 View Consultations
             </a>
 
+
             @auth
-                @if(auth()->user()->role === 'teacher')
+                @if(
+                    auth()->user()->role === 'teacher' ||
+                    auth()->user()->role === 'admin'
+                )
                     <a href="/teacher" class="btn btn-outline-primary btn-lg">
                         Teacher Dashboard
                     </a>
