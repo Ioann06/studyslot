@@ -27,9 +27,12 @@
 
         <div>
             <a href="/consultations" class="btn btn-outline-primary me-2">Consultations</a>
-            <a href="/teacher" class="btn btn-primary me-2">Teacher Dashboard</a>
 
             @auth
+                @if(auth()->user()->role === 'teacher')
+                    <a href="/teacher" class="btn btn-primary me-2">Teacher Dashboard</a>
+                @endif
+
                 <form method="POST" action="/logout" class="d-inline">
                     @csrf
                     <button class="btn btn-outline-danger">Logout</button>
@@ -63,9 +66,13 @@
                 View Consultations
             </a>
 
-            <a href="/teacher" class="btn btn-outline-primary btn-lg">
-                Teacher Dashboard
-            </a>
+            @auth
+                @if(auth()->user()->role === 'teacher')
+                    <a href="/teacher" class="btn btn-outline-primary btn-lg">
+                        Teacher Dashboard
+                    </a>
+                @endif
+            @endauth
         </div>
 
         <div class="col-lg-6 mt-5 mt-lg-0">
