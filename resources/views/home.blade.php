@@ -6,8 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #eef4ff, #f8fbff);
+        }
+
+        .navbar {
+            padding: 15px 0;
+        }
+
+        .btn {
+            border-radius: 12px;
+        }
+
+        .card {
+            transition: 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 1rem 2rem rgba(0,0,0,0.12) !important;
+        }
+
+        .hero-title {
+            line-height: 1.1;
+        }
+    </style>
 </head>
-<body style="background: linear-gradient(135deg, #eef4ff, #f8fbff);">
+<body>
 
 <nav class="navbar navbar-expand-lg bg-white shadow-sm">
     <div class="container">
@@ -21,12 +48,14 @@
 </nav>
 
 <section class="container py-5">
-    <div class="row align-items-center min-vh-75 py-5">
+    <div class="row align-items-center py-5">
 
         <div class="col-lg-6">
-            <span class="badge bg-primary mb-3 px-3 py-2">Student Consultation System</span>
+            <span class="badge bg-primary mb-3 px-3 py-2">
+                Student Consultation System
+            </span>
 
-            <h1 class="display-3 fw-bold mb-4">
+            <h1 class="display-3 fw-bold mb-4 hero-title">
                 Book study consultations easily
             </h1>
 
@@ -71,6 +100,10 @@
 
     </div>
 </section>
+
+<footer class="text-center py-4 text-muted">
+    © 2026 StudySlot
+</footer>
 
 </body>
 </html>

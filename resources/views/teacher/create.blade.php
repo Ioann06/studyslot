@@ -6,8 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body { background: linear-gradient(135deg, #eef4ff, #f8fbff); }
+        .navbar { padding: 15px 0; }
+        .btn { border-radius: 12px; }
+        .card { transition: 0.2s ease; }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 1rem 2rem rgba(0,0,0,0.12) !important;
+        }
+    </style>
 </head>
-<body style="background: linear-gradient(135deg, #eef4ff, #f8fbff);">
+<body>
 
 <nav class="navbar bg-white shadow-sm">
     <div class="container">
@@ -16,10 +27,9 @@
     </div>
 </nav>
 
-<div class="container py-5">
+<div class="container py-5" style="min-height: 75vh;">
     <div class="row justify-content-center">
         <div class="col-lg-7">
-
             <div class="card border-0 shadow-lg rounded-4">
                 <div class="card-body p-5">
                     <h1 class="fw-bold mb-2">Create Consultation</h1>
@@ -37,9 +47,7 @@
                             <label class="form-label fw-semibold">Course</label>
                             <select name="course_id" class="form-control form-control-lg" required>
                                 @foreach($courses as $course)
-                                    <option value="{{ $course->id }}">
-                                        {{ $course->title }}
-                                    </option>
+                                    <option value="{{ $course->id }}">{{ $course->title }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -67,7 +75,6 @@
                     </form>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
