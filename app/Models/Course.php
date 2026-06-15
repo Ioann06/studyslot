@@ -6,10 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-    protected $fillable = ['title', 'description', 'teacher_name'];
+    protected $fillable = [
+        'title',
+        'description',
+        'teacher_name'
+    ];
 
     public function consultationSlots()
     {
         return $this->hasMany(ConsultationSlot::class);
+    }
+
+    public function materials()
+    {
+        return $this->hasMany(Material::class);
     }
 }

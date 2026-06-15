@@ -52,4 +52,55 @@ class TeacherDashboardController extends Controller
 
         return view('teacher.bookings', compact('bookings'));
     }
+
+    public function approveBooking($id)
+    {
+        $booking = Booking::findOrFail($id);
+
+        $booking->update([
+            'status' => 'approved'
+        ]);
+
+        return back();
+    }
+
+    public function rejectBooking($id)
+    {
+        $booking = Booking::findOrFail($id);
+
+        $booking->update([
+            'status' => 'rejected'
+        ]);
+
+        return back();
+    }
+
+    public function edit($id)
+    {
+        $slot = ConsultationSlot::findOrFail($id);
+
+        return view('teacher.edit', compact('slot'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $slot = ConsultationSlot::findOrFail($id);
+
+        $slot->update([
+            'title' => $request->title,
+            'date' => $request->date,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+            'max_students' => $request->max_students,
+        ]);
+
+        return redirect('/teacher');
+    }
+
+    public function destroy($id)
+    {
+        ConsultationSlot::findOrFail($id)->delete();
+
+        return redirect('/teacher');
+    }
 }

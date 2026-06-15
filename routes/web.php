@@ -19,7 +19,8 @@ Route::get('/consultations', [ConsultationSlotController::class, 'index']);
 
 Route::get('/book/{slotId}', [BookingController::class, 'create']);
 
-Route::post('/book', [BookingController::class, 'store'])->middleware('auth');
+Route::post('/book', [BookingController::class, 'store'])
+    ->middleware('auth');
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,17 @@ Route::middleware(['auth', 'teacher'])->group(function () {
 
     Route::post('/teacher/store', [TeacherDashboardController::class, 'store']);
 
+    Route::get('/teacher/bookings', [TeacherDashboardController::class, 'bookings']);
+
+    Route::post(
+        '/teacher/bookings/{id}/approve',
+        [TeacherDashboardController::class, 'approveBooking']
+    );
+
+    Route::post(
+        '/teacher/bookings/{id}/reject',
+        [TeacherDashboardController::class, 'rejectBooking']
+    );
 });
 
 /*
@@ -55,12 +67,14 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
 
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
 
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
