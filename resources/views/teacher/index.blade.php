@@ -8,22 +8,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        body {
-            background: linear-gradient(135deg, #eef4ff, #f8fbff);
-        }
-
-        .navbar {
-            padding: 15px 0;
-        }
-
-        .btn {
-            border-radius: 12px;
-        }
-
-        .card {
-            transition: 0.2s ease;
-        }
-
+        body { background: linear-gradient(135deg, #eef4ff, #f8fbff); }
+        .navbar { padding: 15px 0; }
+        .btn { border-radius: 12px; }
+        .card { transition: 0.2s ease; }
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 1rem 2rem rgba(0,0,0,0.12) !important;
@@ -35,7 +23,16 @@
 <nav class="navbar bg-white shadow-sm">
     <div class="container">
         <a href="/" class="navbar-brand fw-bold text-primary fs-3">StudySlot</a>
-        <a href="/teacher/create" class="btn btn-primary">+ Create Consultation</a>
+
+        <div>
+            <a href="/teacher/bookings" class="btn btn-outline-primary me-2">
+                Bookings
+            </a>
+
+            <a href="/teacher/create" class="btn btn-primary">
+                + Create Consultation
+            </a>
+        </div>
     </div>
 </nav>
 
@@ -50,6 +47,18 @@
             Total: {{ $slots->count() }}
         </div>
     </div>
+
+    @if(session('success'))
+        <div class="alert alert-success shadow-sm rounded-4">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger shadow-sm rounded-4">
+            {{ session('error') }}
+        </div>
+    @endif
 
     @if($slots->count() == 0)
         <div class="alert alert-info shadow-sm rounded-4">
@@ -66,6 +75,7 @@
                             <span class="badge bg-success rounded-pill px-3 py-2">
                                 {{ $slot->status }}
                             </span>
+
                             <span class="text-muted">#{{ $slot->id }}</span>
                         </div>
 
@@ -73,12 +83,21 @@
 
                         <div class="bg-light rounded-4 p-3 mb-3">
                             <p class="mb-2">📅 <b>Date:</b> {{ $slot->date }}</p>
-                            <p class="mb-0">⏰ <b>Time:</b> {{ $slot->start_time }} - {{ $slot->end_time }}</p>
+                            <p class="mb-2">⏰ <b>Time:</b> {{ $slot->start_time }} - {{ $slot->end_time }}</p>
+                            <p class="mb-0">👥 <b>Max students:</b> {{ $slot->max_students }}</p>
                         </div>
 
-                        <button class="btn btn-outline-danger w-100" disabled>
-                            Delete
-                        </button>
+                        <a href="/teacher/edit/{{ $slot->id }}" class="btn btn-warning w-100 mb-2">
+                            Edit
+                        </a>
+
+                        <form method="POST" action="/teacher/delete/{{ $slot->id }}">
+                            @csrf
+
+                            <button class="btn btn-outline-danger w-100">
+                                Delete
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
