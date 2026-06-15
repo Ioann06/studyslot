@@ -5,16 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ConsultationSlot;
 use App\Models\Course;
+use App\Models\Booking;
 
 class TeacherDashboardController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->role === 'admin') {
-            $slots = ConsultationSlot::all();
-        } else {
-            $slots = ConsultationSlot::where('teacher_id', auth()->id())->get();
-        }
+        $slots = ConsultationSlot::where(
+            'teacher_id',
+            auth()->id()
+        )->get();
 
         return view('teacher.index', compact('slots'));
     }
@@ -35,9 +35,21 @@ class TeacherDashboardController extends Controller
             'date' => $request->date,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
+            'max_students' => $request->max_students,
             'status' => 'available'
         ]);
 
         return redirect('/teacher');
+    }
+
+    public function bookings()
+    {
+        $bookings = Booking::with('consultationSlot')
+            ->whereHas('consultationSlot', function ($query) {
+                $query->where('teacher_id', auth()->id());
+            })
+            ->get();
+
+        return view('teacher.bookings', compact('bookings'));
     }
 }

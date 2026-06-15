@@ -38,11 +38,34 @@ class BookingController extends Controller
             'message' => 'nullable|string',
         ]);
 
+        $slot = ConsultationSlot::findOrFail($request->consultation_slot_id);
+
+        $alreadyBooked = Booking::where('user_id', auth()->id())
+            ->where('consultation_slot_id', $slot->id)
+            ->exists();
+
+        if ($alreadyBooked) {
+            return redirect('/consultations')
+                ->with('error', 'You have already booked this consultation.');
+        }
+
+        $currentBookings = Booking::where(
+            'consultation_slot_id',
+            $slot->id
+        )->count();
+
+        if ($currentBookings >= $slot->max_students) {
+            return redirect('/consultations')
+                ->with('error', 'No available places left.');
+        }
+
         Booking::create([
-            'consultation_slot_id' => $request->consultation_slot_id,
+            'user_id' => auth()->id(),
+            'consultation_slot_id' => $slot->id,
             'student_name' => auth()->user()->name,
             'student_email' => auth()->user()->email,
             'message' => $request->message,
+            'status' => 'pending',
         ]);
 
         return redirect('/consultations')
