@@ -36,6 +36,12 @@ Route::middleware(['auth', 'teacher'])->group(function () {
 
     Route::post('/teacher/store', [TeacherDashboardController::class, 'store']);
 
+    Route::get('/teacher/edit/{id}', [TeacherDashboardController::class, 'edit']);
+
+    Route::post('/teacher/update/{id}', [TeacherDashboardController::class, 'update']);
+
+    Route::post('/teacher/delete/{id}', [TeacherDashboardController::class, 'destroy']);
+
     Route::get('/teacher/bookings', [TeacherDashboardController::class, 'bookings']);
 
     Route::post(
