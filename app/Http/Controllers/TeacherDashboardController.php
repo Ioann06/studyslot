@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ConsultationSlot;
+use App\Models\Course;
 
 class TeacherDashboardController extends Controller
 {
@@ -16,7 +17,9 @@ class TeacherDashboardController extends Controller
 
     public function create()
     {
-        return view('teacher.create');
+        $courses = Course::all();
+
+        return view('teacher.create', compact('courses'));
     }
 
     public function store(Request $request)

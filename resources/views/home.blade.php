@@ -3,33 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <title>StudySlot</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="bg-light">
+<body style="background: linear-gradient(135deg, #eef4ff, #f8fbff);">
 
-<div class="container min-vh-100 d-flex align-items-center justify-content-center">
-    <div class="text-center p-5 bg-white rounded shadow">
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary fs-3" href="/">StudySlot</a>
 
-        <h1 class="mb-3">StudySlot</h1>
+        <div>
+            <a href="/consultations" class="btn btn-outline-primary me-2">Consultations</a>
+            <a href="/teacher" class="btn btn-primary">Teacher Dashboard</a>
+        </div>
+    </div>
+</nav>
 
-        <p class="lead mb-4">
-            A simple platform for booking study consultations.
-        </p>
+<section class="container py-5">
+    <div class="row align-items-center min-vh-75 py-5">
 
-        <div class="d-flex gap-3 justify-content-center">
-            <a href="/consultations" class="btn btn-primary btn-lg">
+        <div class="col-lg-6">
+            <span class="badge bg-primary mb-3 px-3 py-2">Student Consultation System</span>
+
+            <h1 class="display-3 fw-bold mb-4">
+                Book study consultations easily
+            </h1>
+
+            <p class="lead text-muted mb-4">
+                StudySlot helps students find available consultation slots,
+                book meetings with teachers, and manage appointments online.
+            </p>
+
+            <a href="/consultations" class="btn btn-primary btn-lg me-2">
                 View Consultations
             </a>
 
-            <a href="/teacher" class="btn btn-outline-secondary btn-lg">
+            <a href="/teacher" class="btn btn-outline-primary btn-lg">
                 Teacher Dashboard
             </a>
         </div>
 
+        <div class="col-lg-6 mt-5 mt-lg-0">
+            <div class="card border-0 shadow-lg rounded-4">
+                <div class="card-body p-5">
+
+                    <h3 class="fw-bold mb-4">Why StudySlot?</h3>
+
+                    <div class="mb-3">
+                        <h5>✅ Easy booking</h5>
+                        <p class="text-muted">Students can quickly book available consultations.</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <h5>📅 Simple scheduling</h5>
+                        <p class="text-muted">Teachers can create and manage consultation slots.</p>
+                    </div>
+
+                    <div>
+                        <h5>💻 Online management</h5>
+                        <p class="text-muted mb-0">Everything is organized in one clean dashboard.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
-</div>
+</section>
 
 </body>
 </html>
