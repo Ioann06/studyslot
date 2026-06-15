@@ -25,6 +25,15 @@ class TeacherDashboardController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'course_id' => 'required|exists:courses,id',
+            'date' => 'required|date',
+            'start_time' => 'required',
+            'end_time' => 'required|after:start_time',
+            'max_students' => 'required|integer|min:1'
+        ]);
+
         ConsultationSlot::create([
             'teacher_id' => auth()->id(),
             'title' => $request->title,
@@ -92,6 +101,14 @@ class TeacherDashboardController extends Controller
             'teacher_id',
             auth()->id()
         )->findOrFail($id);
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'date' => 'required|date',
+            'start_time' => 'required',
+            'end_time' => 'required|after:start_time',
+            'max_students' => 'required|integer|min:1'
+        ]);
 
         $slot->update([
             'title' => $request->title,
