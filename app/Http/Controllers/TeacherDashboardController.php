@@ -10,7 +10,11 @@ class TeacherDashboardController extends Controller
 {
     public function index()
     {
-        $slots = ConsultationSlot::all();
+        if (auth()->user()->role === 'admin') {
+            $slots = ConsultationSlot::all();
+        } else {
+            $slots = ConsultationSlot::where('teacher_id', auth()->id())->get();
+        }
 
         return view('teacher.index', compact('slots'));
     }
