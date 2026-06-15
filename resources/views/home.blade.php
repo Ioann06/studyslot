@@ -8,30 +8,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        body {
-            background: linear-gradient(135deg, #eef4ff, #f8fbff);
-        }
-
-        .navbar {
-            padding: 15px 0;
-        }
-
-        .btn {
-            border-radius: 12px;
-        }
-
-        .card {
-            transition: 0.2s ease;
-        }
-
+        body { background: linear-gradient(135deg, #eef4ff, #f8fbff); }
+        .navbar { padding: 15px 0; }
+        .btn { border-radius: 12px; }
+        .card { transition: 0.2s ease; }
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 1rem 2rem rgba(0,0,0,0.12) !important;
         }
-
-        .hero-title {
-            line-height: 1.1;
-        }
+        .hero-title { line-height: 1.1; }
     </style>
 </head>
 <body>
@@ -42,7 +27,17 @@
 
         <div>
             <a href="/consultations" class="btn btn-outline-primary me-2">Consultations</a>
-            <a href="/teacher" class="btn btn-primary">Teacher Dashboard</a>
+            <a href="/teacher" class="btn btn-primary me-2">Teacher Dashboard</a>
+
+            @auth
+                <form method="POST" action="/logout" class="d-inline">
+                    @csrf
+                    <button class="btn btn-outline-danger">Logout</button>
+                </form>
+            @else
+                <a href="/login" class="btn btn-outline-primary me-2">Login</a>
+                <a href="/register" class="btn btn-success">Register</a>
+            @endauth
         </div>
     </div>
 </nav>

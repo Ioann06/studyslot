@@ -62,7 +62,11 @@ Route::middleware(['auth', 'teacher'])->group(function () {
 */
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    if (auth()->user()->role === 'teacher') {
+        return redirect('/teacher');
+    }
+
+    return redirect('/consultations');
 })->middleware(['auth'])->name('dashboard');
 
 /*
