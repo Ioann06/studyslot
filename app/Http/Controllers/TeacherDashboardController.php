@@ -11,10 +11,7 @@ class TeacherDashboardController extends Controller
 {
     public function index()
     {
-        $slots = ConsultationSlot::where(
-            'teacher_id',
-            auth()->id()
-        )->get();
+        $slots = ConsultationSlot::where('teacher_id', auth()->id())->get();
 
         return view('teacher.index', compact('slots'));
     }
@@ -55,7 +52,9 @@ class TeacherDashboardController extends Controller
 
     public function approveBooking($id)
     {
-        $booking = Booking::findOrFail($id);
+        $booking = Booking::whereHas('consultationSlot', function ($query) {
+            $query->where('teacher_id', auth()->id());
+        })->findOrFail($id);
 
         $booking->update([
             'status' => 'approved'
@@ -66,7 +65,9 @@ class TeacherDashboardController extends Controller
 
     public function rejectBooking($id)
     {
-        $booking = Booking::findOrFail($id);
+        $booking = Booking::whereHas('consultationSlot', function ($query) {
+            $query->where('teacher_id', auth()->id());
+        })->findOrFail($id);
 
         $booking->update([
             'status' => 'rejected'
@@ -77,14 +78,20 @@ class TeacherDashboardController extends Controller
 
     public function edit($id)
     {
-        $slot = ConsultationSlot::findOrFail($id);
+        $slot = ConsultationSlot::where(
+            'teacher_id',
+            auth()->id()
+        )->findOrFail($id);
 
         return view('teacher.edit', compact('slot'));
     }
 
     public function update(Request $request, $id)
     {
-        $slot = ConsultationSlot::findOrFail($id);
+        $slot = ConsultationSlot::where(
+            'teacher_id',
+            auth()->id()
+        )->findOrFail($id);
 
         $slot->update([
             'title' => $request->title,
@@ -99,7 +106,10 @@ class TeacherDashboardController extends Controller
 
     public function destroy($id)
     {
-        ConsultationSlot::findOrFail($id)->delete();
+        ConsultationSlot::where(
+            'teacher_id',
+            auth()->id()
+        )->findOrFail($id)->delete();
 
         return redirect('/teacher');
     }
